@@ -18,7 +18,7 @@ except FileNotFoundError:
 
 # Paths to your custom images
 DEFAULT_USER_IMAGE = "white.png"
-ASSISTANT_IMAGE = "download.jpeg"
+ASSISTANT_IMAGE = "download (1).png"
 
 # Initialize session state for conversation history
 if "messages" not in st.session_state:
@@ -52,10 +52,9 @@ if custom_input:
     st.session_state.messages[0]["content"] = base_prompt
 
 # Main App Layout
-st.title("Álvaro Uribe Vélez Chatbot")
+st.title("SpongeBob Chatbot")
 st.markdown("""
-This chatbot simulates the responses of Álvaro Uribe Vélez, former President of Colombia. 
-Ask questions about his life, political career, and more!
+This chatbot simulates the responses of SpongeBob, American popular cartoon.
 """)
 
 # Add custom CSS for circular images and text alignment
@@ -153,7 +152,7 @@ for message in st.session_state.messages:
             """, unsafe_allow_html=True)
 
 # User input prompt
-if prompt := st.chat_input("Ask about Álvaro Uribe Vélez's achievements, family, or policies..."):
+if prompt := st.chat_input("Ask about SpongeBob's achievements, family, or policies..."):
     # Display user message
     with st.container():
         # Encode user image if uploaded, else use the default image
