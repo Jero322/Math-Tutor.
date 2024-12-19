@@ -28,10 +28,9 @@ if "messages" not in st.session_state:
 if "user_image" not in st.session_state:
     st.session_state.user_image = DEFAULT_USER_IMAGE
 
-# App Sidebar
 st.sidebar.title("Navigation")
 st.sidebar.markdown("""
-- **Spongebob**: Learn about his hystory. **[here]https://en.wikipedia.org/wiki/SpongeBob_SquarePants**.
+- **SpongeBob**: Learn about his history **[here](https://en.wikipedia.org/wiki/SpongeBob_SquarePants)**.
 """)
 
 # Sidebar Customize Chat Section
