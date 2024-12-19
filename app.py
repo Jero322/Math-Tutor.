@@ -31,7 +31,7 @@ if "user_image" not in st.session_state:
 # App Sidebar
 st.sidebar.title("Navigation")
 st.sidebar.markdown("""
-- **Spongebob**: Learn about his hystory, etc**[here]https://en.wikipedia.org/wiki/SpongeBob_SquarePants**.
+- **Spongebob**: Learn about his hystory. **[here]https://en.wikipedia.org/wiki/SpongeBob_SquarePants**.
 """)
 
 # Sidebar Customize Chat Section
