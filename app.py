@@ -31,7 +31,7 @@ if "user_image" not in st.session_state:
 # App Sidebar
 st.sidebar.title("Navigation")
 st.sidebar.markdown("""
-- **About Álvaro Uribe**: Learn about his life and career **[here](https://www.alvarouribevelez.com.co/trabajo-2-1-2-14/)**.
+- **Spongebob**: Learn about his hystory, etc**[here]https://en.wikipedia.org/wiki/SpongeBob_SquarePants**.
 """)
 
 # Sidebar Customize Chat Section
@@ -146,7 +146,7 @@ for message in st.session_state.messages:
                 <div class="chat-container">
                     <img src="data:image/png;base64,{base64.b64encode(open(ASSISTANT_IMAGE, 'rb').read()).decode()}" alt="Assistant Image">
                     <div class="assistant-text">
-                        <strong>Álvaro Uribe Bot:</strong> {message["content"]}
+                        <strong>SpongeBob Chatbot:</strong> {message["content"]}
                     </div>
                 </div>
             """, unsafe_allow_html=True)
@@ -193,7 +193,7 @@ if prompt := st.chat_input("Ask about SpongeBob's achievements, family, or polic
             <div class="chat-container">
                 <img src="data:image/png;base64,{base64.b64encode(open(ASSISTANT_IMAGE, 'rb').read()).decode()}" alt="Assistant Image">
                 <div class="assistant-text">
-                    <strong>Álvaro Uribe Bot:</strong> {full_response}
+                    <strong>SpongeBob Chatbot:</strong> {full_response}
                 </div>
             </div>
         """, unsafe_allow_html=True)
