@@ -2,8 +2,6 @@ import streamlit as st
 import google.generativeai as genai
 import base64
 from io import BytesIO
-import time
-
 
 # Initialize session state for screen switching and timer
 if "test_mode" not in st.session_state:
