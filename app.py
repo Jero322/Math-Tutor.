@@ -4,7 +4,7 @@ import base64
 from io import BytesIO
 
 # Configure the API key
-genai.configure(api_key="AIzaSyBQmBfA--Xy0UaXB1FxwLQ2Oh3bl4holtY")
+genai.configure(api_key="AIzaSyBlwWjOEN6daKjcUWj2Nh5AVE9ACOavLag")
 
 # Initialize the Generative Model
 model = genai.GenerativeModel("gemini-1.5-flash")
@@ -18,7 +18,7 @@ except FileNotFoundError:
 
 # Paths to your custom images
 DEFAULT_USER_IMAGE = "white.png"
-ASSISTANT_IMAGE = "download (1).png"
+ASSISTANT_IMAGE = "download.jpeg"
 
 # Initialize session state for conversation history
 if "messages" not in st.session_state:
@@ -28,9 +28,10 @@ if "messages" not in st.session_state:
 if "user_image" not in st.session_state:
     st.session_state.user_image = DEFAULT_USER_IMAGE
 
+# App Sidebar
 st.sidebar.title("Navigation")
 st.sidebar.markdown("""
-- **SpongeBob**: Learn about his history **[here](https://en.wikipedia.org/wiki/SpongeBob_SquarePants)**.
+- **practice extra math problems Here.**[here](https://www.mathsgenie.co.uk/)**.
 """)
 
 # Sidebar Customize Chat Section
@@ -51,9 +52,10 @@ if custom_input:
     st.session_state.messages[0]["content"] = base_prompt
 
 # Main App Layout
-st.title("SpongeBob Chatbot")
+st.title("Math Tutor")
 st.markdown("""
-This chatbot simulates the responses of SpongeBob, American popular cartoon.
+This chatbot is a profesional math tutor, and he will prepare you to any math you want to learn.
+for only 20$ a month!!.
 """)
 
 # Add custom CSS for circular images and text alignment
@@ -145,13 +147,13 @@ for message in st.session_state.messages:
                 <div class="chat-container">
                     <img src="data:image/png;base64,{base64.b64encode(open(ASSISTANT_IMAGE, 'rb').read()).decode()}" alt="Assistant Image">
                     <div class="assistant-text">
-                        <strong>SpongeBob Chatbot:</strong> {message["content"]}
+                        <strong>Álvaro Uribe Bot:</strong> {message["content"]}
                     </div>
                 </div>
             """, unsafe_allow_html=True)
 
 # User input prompt
-if prompt := st.chat_input("Ask about SpongeBob's achievements, family, or policies..."):
+if prompt := st.chat_input("ask any math problem and he will explain it and solve it with you."):
     # Display user message
     with st.container():
         # Encode user image if uploaded, else use the default image
@@ -192,7 +194,7 @@ if prompt := st.chat_input("Ask about SpongeBob's achievements, family, or polic
             <div class="chat-container">
                 <img src="data:image/png;base64,{base64.b64encode(open(ASSISTANT_IMAGE, 'rb').read()).decode()}" alt="Assistant Image">
                 <div class="assistant-text">
-                    <strong>SpongeBob Chatbot:</strong> {full_response}
+                    <strong>Álvaro Uribe Bot:</strong> {full_response}
                 </div>
             </div>
         """, unsafe_allow_html=True)
