@@ -147,7 +147,7 @@ for message in st.session_state.messages:
                 <div class="chat-container">
                     <img src="data:image/png;base64,{base64.b64encode(open(ASSISTANT_IMAGE, 'rb').read()).decode()}" alt="Assistant Image">
                     <div class="assistant-text">
-                        <strong>Álvaro Uribe Bot:</strong> {message["content"]}
+                        <strong>Math Tutor:</strong> {message["content"]}
                     </div>
                 </div>
             """, unsafe_allow_html=True)
