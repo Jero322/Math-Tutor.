@@ -4,12 +4,13 @@ import base64
 from io import BytesIO
 
 # Initialize session state for screen switching
+# Initialize session state for screen switching
 if "test_mode" not in st.session_state:
     st.session_state.test_mode = False
 
 # Test Button to switch screens
 if not st.session_state.test_mode:
-    if st.button("Test Button"):
+    if st.button("Test Button", key="test_button"):
         st.session_state.test_mode = True
         st.rerun()
 
@@ -18,12 +19,13 @@ if st.session_state.test_mode:
     st.markdown("<style>body { background-color: white; }</style>", unsafe_allow_html=True)
     
     # Exit button to return to main screen
-    if st.button("Exit"):
+    if st.button("Exit", key="exit_button"):
         st.session_state.test_mode = False
         st.rerun()
     
     # Stop further execution so only the test screen is visible
     st.stop()
+
 
 
 # Configure the API key
