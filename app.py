@@ -2,27 +2,42 @@ import streamlit as st
 import google.generativeai as genai
 import base64
 from io import BytesIO
+import time
 
-# Initialize session state for screen switching
-# Initialize session state for screen switching
+
+# Initialize session state for screen switching and timer
 if "test_mode" not in st.session_state:
     st.session_state.test_mode = False
+if "time_left" not in st.session_state:
+    st.session_state.time_left = 60 * 60  # 60 minutes in seconds
 
 # Test Button to switch screens
 if not st.session_state.test_mode:
     if st.button("Test Button", key="test_button"):
         st.session_state.test_mode = True
+        st.session_state.time_left = 60 * 60  # Reset timer to 60 minutes
         st.rerun()
 
-# If in test mode, show a white screen with an Exit button
+# If in test mode, show a white screen with a timer and an Exit button
 if st.session_state.test_mode:
     st.markdown("<style>body { background-color: white; }</style>", unsafe_allow_html=True)
     
+    # Display Timer
+    timer_placeholder = st.empty()
+    
+    # Timer Countdown Logic
+    while st.session_state.time_left > 0:
+        mins, secs = divmod(st.session_state.time_left, 60)
+        timer_placeholder.markdown(f"### ⏳ Time Left: {mins:02d}:{secs:02d}")
+        time.sleep(1)
+        st.session_state.time_left -= 1
+        st.rerun()  # Refresh the app to update the timer
+
     # Exit button to return to main screen
     if st.button("Exit", key="exit_button"):
         st.session_state.test_mode = False
         st.rerun()
-    
+
     # Stop further execution so only the test screen is visible
     st.stop()
 
