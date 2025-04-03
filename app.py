@@ -194,7 +194,7 @@ if prompt := st.chat_input("ask any math problem and he will explain it and solv
             <div class="chat-container">
                 <img src="data:image/png;base64,{base64.b64encode(open(ASSISTANT_IMAGE, 'rb').read()).decode()}" alt="Assistant Image">
                 <div class="assistant-text">
-                    <strong>Álvaro Uribe Bot:</strong> {full_response}
+                    <strong>Math Tutor:</strong> {full_response}
                 </div>
             </div>
         """, unsafe_allow_html=True)
