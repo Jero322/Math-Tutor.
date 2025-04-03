@@ -58,6 +58,11 @@ This chatbot is a profesional math tutor, and he will prepare you to any math yo
 for only 20$ a month!!.
 """)
 
+# Add a test button at the top
+if st.button("Test Button"):
+    st.success("Test Button Clicked!")
+
+
 # Add custom CSS for circular images and text alignment
 st.markdown("""
     <style>
