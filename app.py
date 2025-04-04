@@ -4,28 +4,33 @@ import base64
 from io import BytesIO
 
 # Initialize session state for screen switching and timer
-# Initialize session state for screen switching
-if "test_mode" not in st.session_state:
-    st.session_state.test_mode = False
+# Initialize the countdown timer
+if "time_left" not in st.session_state:
+    st.session_state.time_left = 60 * 60  # 60 minutes in seconds
 
-# Test Button to switch screens
-if not st.session_state.test_mode:
-    if st.button("Test Button", key="test_button"):
-        st.session_state.test_mode = True
-        st.rerun()
-
-# If in test mode, show a white screen with an Exit button
 if st.session_state.test_mode:
     st.markdown("<style>body { background-color: white; }</style>", unsafe_allow_html=True)
-    
-    # Exit button to return to main screen
+
+    # Show the countdown timer at the top
+    timer_placeholder = st.empty()
+
+    # Calculate time left and format it
+    mins, secs = divmod(st.session_state.time_left, 60)
+    timer_placeholder.markdown(f"### ⏳ Time Left: {mins:02d}:{secs:02d}")
+
+    # Count down: reduce 1 second if the app refreshes every second
+    if st.session_state.time_left > 0:
+        st.session_state.time_left -= 1
+        time.sleep(1)
+        st.rerun()  # Trigger refresh to update the timer
+
+    # Exit button to return to the main screen
     if st.button("Exit", key="exit_button"):
         st.session_state.test_mode = False
+        st.session_state.time_left = 60 * 60  # Reset timer for next time
         st.rerun()
-    
-    # Stop further execution so only the test screen is visible
-    st.stop()
 
+    st.stop()
 
 
 # Configure the API key
