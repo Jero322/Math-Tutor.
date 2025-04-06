@@ -3,8 +3,8 @@ import google.generativeai as genai
 import base64
 from io import BytesIO
 import datetime
+from streamlit_autorefresh import st_autorefresh
 import time
-
 
 # Initialize timer if not already set
 if "time_left" not in st.session_state:
@@ -14,6 +14,9 @@ if "last_tick" not in st.session_state:
 
 # Test screen with timer and Exit button
 if st.session_state.test_mode:
+    # Refresh every 1 second (1000 milliseconds)
+    st_autorefresh(interval=1000, key="timer_refresh")
+
     st.markdown("<style>body { background-color: white; }</style>", unsafe_allow_html=True)
 
     # Calculate time difference since last tick
@@ -33,10 +36,8 @@ if st.session_state.test_mode:
         st.session_state.last_tick = time.time()
         st.rerun()
 
-    # Auto-refresh every second to update timer
-    st.experimental_rerun()
-
     st.stop()
+
 
 
 # Configure the API key
