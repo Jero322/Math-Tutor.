@@ -69,7 +69,7 @@ if "user_image" not in st.session_state:
 # App Sidebar
 st.sidebar.title("Navigation")
 st.sidebar.markdown("""
-- **practice extra math problems**[here](https://www.mathsgenie.co.uk/)**.
+- **practice extra math problems [here](https://www.mathsgenie.co.uk/)**.
 """)
 
 # Sidebar Customize Chat Section
