@@ -3,6 +3,8 @@ import google.generativeai as genai
 import base64
 from io import BytesIO
 import datetime
+import time
+
 
 # Initialize timer if not already set
 if "time_left" not in st.session_state:
