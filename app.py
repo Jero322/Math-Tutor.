@@ -2,29 +2,38 @@ import streamlit as st
 import google.generativeai as genai
 import base64
 from io import BytesIO
+import datetime
 
-# Initialize session state for screen switching and timer
-# Initialize session state for screen switching and timer
-# Initialize session state for screen switching
-if "test_mode" not in st.session_state:
-    st.session_state.test_mode = False
+# Initialize timer if not already set
+if "time_left" not in st.session_state:
+    st.session_state.time_left = 60 * 60  # 60 minutes in seconds
+if "last_tick" not in st.session_state:
+    st.session_state.last_tick = time.time()
 
-# Test Button to switch screens
-if not st.session_state.test_mode:
-    if st.button("Test Button", key="test_button"):
-        st.session_state.test_mode = True
-        st.rerun()
-
-# If in test mode, show a white screen with an Exit button
+# Test screen with timer and Exit button
 if st.session_state.test_mode:
     st.markdown("<style>body { background-color: white; }</style>", unsafe_allow_html=True)
-    
-    # Exit button to return to main screen
+
+    # Calculate time difference since last tick
+    now = time.time()
+    elapsed = now - st.session_state.last_tick
+    st.session_state.last_tick = now
+    st.session_state.time_left = max(0, st.session_state.time_left - int(elapsed))
+
+    # Format and display timer
+    mins, secs = divmod(st.session_state.time_left, 60)
+    st.markdown(f"## ⏳ Time Left: {mins:02d}:{secs:02d}")
+
+    # Exit button
     if st.button("Exit", key="exit_button"):
         st.session_state.test_mode = False
+        st.session_state.time_left = 60 * 60  # Reset for next time
+        st.session_state.last_tick = time.time()
         st.rerun()
-    
-    # Stop further execution so only the test screen is visible
+
+    # Auto-refresh every second to update timer
+    st.experimental_rerun()
+
     st.stop()
 
 
