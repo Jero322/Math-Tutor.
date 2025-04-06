@@ -6,13 +6,13 @@ import datetime
 from streamlit_autorefresh import st_autorefresh
 import time
 
-# Initialize session state variables
-if "test_mode" not in st.session_state:
-    st.session_state.test_mode = False
+# Initialize timer if not already set
 if "time_left" not in st.session_state:
     st.session_state.time_left = 60 * 60  # 60 minutes in seconds
 if "last_tick" not in st.session_state:
     st.session_state.last_tick = time.time()
+if "test_mode" not in st.session_state:
+    st.session_state.test_mode = False
 
 # Test screen with timer and Exit button
 if st.session_state.test_mode:
@@ -77,11 +77,10 @@ user_image_upload = st.sidebar.file_uploader("Upload Your Image", type=["jpg", "
 
 # Check if user uploaded an image
 if user_image_upload:
-    # Read the uploaded image content and base64 encode it
     image_bytes = user_image_upload.read()
-    st.session_state.user_image = image_bytes  # Store the image content
+    st.session_state.user_image = image_bytes
 else:
-    st.session_state.user_image = DEFAULT_USER_IMAGE  # Use the default image if none uploaded
+    st.session_state.user_image = DEFAULT_USER_IMAGE
 
 custom_input = st.sidebar.text_input("Add Custom Information to Base Prompt")
 if custom_input:
@@ -94,6 +93,14 @@ st.markdown("""
 This chatbot is a profesional math tutor, and he will prepare you to any math you want to learn.
 for only 20$ a month!!.
 """)
+
+# Start Test button
+if not st.session_state.test_mode:
+    if st.button("🚀 Start Test"):
+        st.session_state.test_mode = True
+        st.session_state.time_left = 60 * 60  # Reset timer
+        st.session_state.last_tick = time.time()
+        st.rerun()
 
 # Add custom CSS for circular images and text alignment
 st.markdown("""
@@ -126,7 +133,6 @@ def build_context(messages, base_prompt, history_limit=5):
             conversation_history.append(f"User: {msg['content']}")
         elif msg["role"] == "assistant":
             conversation_history.append(f"Assistant: {msg['content']}")
-
     recent_history = "\n".join(conversation_history[-history_limit:])
     latest_message = messages[-1]["content"] if messages else ""
     context = (
