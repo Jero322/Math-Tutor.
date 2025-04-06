@@ -25,7 +25,7 @@ if st.session_state.test_mode:
     now = time.time()
     elapsed = now - st.session_state.last_tick
     st.session_state.last_tick = now
-  st.session_state.time_left = max(0, st.session_state.time_left - round(elapsed))
+    st.session_state.time_left = max(0, st.session_state.time_left - round(elapsed))
 
 
     # Format and display timer
