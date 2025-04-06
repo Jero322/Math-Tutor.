@@ -6,7 +6,9 @@ import datetime
 from streamlit_autorefresh import st_autorefresh
 import time
 
-# Initialize timer if not already set
+# Initialize session state variables
+if "test_mode" not in st.session_state:
+    st.session_state.test_mode = False
 if "time_left" not in st.session_state:
     st.session_state.time_left = 60 * 60  # 60 minutes in seconds
 if "last_tick" not in st.session_state:
@@ -37,8 +39,6 @@ if st.session_state.test_mode:
         st.rerun()
 
     st.stop()
-
-
 
 # Configure the API key
 genai.configure(api_key="AIzaSyBlwWjOEN6daKjcUWj2Nh5AVE9ACOavLag")
@@ -95,7 +95,6 @@ This chatbot is a profesional math tutor, and he will prepare you to any math yo
 for only 20$ a month!!.
 """)
 
-
 # Add custom CSS for circular images and text alignment
 st.markdown("""
     <style>
@@ -121,56 +120,32 @@ st.markdown("""
 
 # Function to build context for AI
 def build_context(messages, base_prompt, history_limit=5):
-    """
-    Build the context for the AI model:
-    - Base prompt: Personality and background.
-    - Conversation history: Condensed summary of the last few exchanges.
-    - Latest user query.
-
-    Args:
-        messages (list): List of conversation messages (user and assistant messages).
-        base_prompt (str): The base personality/background information for the AI.
-        history_limit (int): Number of recent exchanges to include in the context.
-
-    Returns:
-        str: A formatted string containing the full context for the model.
-    """
-    # Initialize an empty list to store the summarized history
     conversation_history = []
-    
-    # Process the messages, excluding the latest user input
-    for msg in messages[:-1]:  # Exclude the last message (latest user input)
+    for msg in messages[:-1]:
         if msg["role"] == "user":
             conversation_history.append(f"User: {msg['content']}")
         elif msg["role"] == "assistant":
             conversation_history.append(f"Assistant: {msg['content']}")
-    
-    # Condense the conversation history to the last `history_limit` exchanges
-    recent_history = "\n".join(conversation_history[-history_limit:])  # Include only the last few exchanges
-    
-    # Get the latest user query
+
+    recent_history = "\n".join(conversation_history[-history_limit:])
     latest_message = messages[-1]["content"] if messages else ""
-    
-    # Assemble the full context
     context = (
         base_prompt +
         "\n\nConversation History (Recent):\n" +
         recent_history +
-        f"\n\nUser: {latest_message}"  # Add the current user input
+        f"\n\nUser: {latest_message}"
     )
-    
     return context
 
 # Display chat messages from history
 for message in st.session_state.messages:
     if message["role"] == "user":
         with st.container():
-            # Encode user image if uploaded, else use the default image
             image_to_display = st.session_state.user_image
             if isinstance(image_to_display, bytes):
-                image_b64 = base64.b64encode(image_to_display).decode()  # Convert image bytes to base64
+                image_b64 = base64.b64encode(image_to_display).decode()
             else:
-                image_b64 = base64.b64encode(open(image_to_display, 'rb').read()).decode()  # For default image
+                image_b64 = base64.b64encode(open(image_to_display, 'rb').read()).decode()
             st.markdown(f"""
                 <div class="chat-container">
                     <img src="data:image/png;base64,{image_b64}" alt="User Image">
@@ -192,14 +167,12 @@ for message in st.session_state.messages:
 
 # User input prompt
 if prompt := st.chat_input("ask any math problem and he will explain it and solve it with you."):
-    # Display user message
     with st.container():
-        # Encode user image if uploaded, else use the default image
         image_to_display = st.session_state.user_image
         if isinstance(image_to_display, bytes):
-            image_b64 = base64.b64encode(image_to_display).decode()  # Convert image bytes to base64
+            image_b64 = base64.b64encode(image_to_display).decode()
         else:
-            image_b64 = base64.b64encode(open(image_to_display, 'rb').read()).decode()  # For default image
+            image_b64 = base64.b64encode(open(image_to_display, 'rb').read()).decode()
         st.markdown(f"""
             <div class="chat-container">
                 <img src="data:image/png;base64,{image_b64}" alt="User Image">
@@ -209,25 +182,19 @@ if prompt := st.chat_input("ask any math problem and he will explain it and solv
             </div>
         """, unsafe_allow_html=True)
 
-    # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # Generate response
     with st.container():
         message_placeholder = st.empty()
         full_response = ""
 
         try:
-            # Build context for the AI model
             context = build_context(st.session_state.messages, base_prompt)
-
-            # Generate response
             response = model.generate_content(context)
             full_response = response.text.strip()
         except Exception as e:
             full_response = f"Error: Unable to generate a response. {str(e)}"
 
-        # Display response
         st.markdown(f"""
             <div class="chat-container">
                 <img src="data:image/png;base64,{base64.b64encode(open(ASSISTANT_IMAGE, 'rb').read()).decode()}" alt="Assistant Image">
@@ -237,7 +204,6 @@ if prompt := st.chat_input("ask any math problem and he will explain it and solv
             </div>
         """, unsafe_allow_html=True)
 
-    # Add assistant message to chat history
     st.session_state.messages.append({"role": "assistant", "content": full_response})
 
 # Footer
